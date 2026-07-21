@@ -14,14 +14,16 @@ int testCalculateCGPA()
 {
     Course c1 = createCourse("CSE 4107", "Structured Programming I", 3.0);
     Course c2 = createCourse("CSE 4108", "Structured Programming I Lab", 1.5);
+    Course c3 = createCourse("CSE 4203", "Discrete Mathematics", 3.0);
 
-    CourseResult r1 = createCourseResult(&c1, 80); // 4.0 * 3.0 = 12.0
-    CourseResult r2 = createCourseResult(&c2, 70); // 3.5 * 1.5 = 5.25
+    CourseResult r1 = createCourseResult(&c1, 80, 1);
+    CourseResult r2 = createCourseResult(&c2, 70, 1);
+    CourseResult r3 = createCourseResult(&c3, 0, 0); // Incomplete
 
-    CourseResult results[] = {r1, r2};
-    double cgpa = calculateCGPA(results, 2);
+    CourseResult results[] = {r1, r2, r3};
+    double cgpa = calculateCGPA(results, 3);
 
-    return (cgpa > 3.83 && cgpa < 3.84); // 17.25 / 4.5 = 3.833...
+    return (cgpa > 3.83 && cgpa < 3.84);
 }
 
 int main()
