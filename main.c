@@ -64,5 +64,20 @@ int main()
     double cgpa = calculateCGPA(results, n_courses);
     printf("\nYour Overall CGPA is: %.2f\n", cgpa);
 
+    double target_cgpa;
+    printf("\nEnter target CGPA: ");
+    if (scanf("%lf", &target_cgpa) == 1)
+    {
+        double req_gpa = calculateRequiredGPA(results, n_courses, target_cgpa);
+        if (req_gpa > 4.00)
+        {
+            printf("Target CGPA %.2f is mathematically impossible (Required GPA: %.2f > 4.00)\n", target_cgpa, req_gpa);
+        }
+        else
+        {
+            printf("Required GPA in remaining courses: %.2f\n", req_gpa);
+        }
+    }
+
     return 0;
 }
