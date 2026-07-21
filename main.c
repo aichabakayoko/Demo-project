@@ -1,18 +1,12 @@
-feature002
 #include <stdio.h>
 #include "course.h"
 #include "courseResult.h"
-
-#include "course.h"
- main
+#include "gpa.h"
 
 int main()
 {
     Course courses[1000];
-feature002
     CourseResult results[1000];
-
- main
     int n_courses = 0;
 
     courses[n_courses++] = createCourse("CSE 4107", "Structured Programming I", 3.0);
@@ -21,20 +15,20 @@ feature002
 
     for (int i = 0; i < n_courses; i++)
     {
- feature002
         double marks;
         printf("Marks for %s: ", courses[i].name);
         scanf("%lf", &marks);
         results[i] = createCourseResult(&courses[i], marks);
     }
 
+    printf("\n--- Course Results ---\n");
     for (int i = 0; i < n_courses; i++)
     {
         viewCourseResult(results[i]);
-
-        viewCourse(courses[i]);
-main
     }
+
+    double cgpa = calculateCGPA(results, n_courses);
+    printf("\nYour CGPA is: %.2f\n", cgpa);
 
     return 0;
 }
