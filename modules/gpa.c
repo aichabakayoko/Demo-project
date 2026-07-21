@@ -21,6 +21,8 @@ double calculateCGPA(CourseResult results[], int n_results)
 
     for (int i = 0; i < n_results; i++)
     {
+        if (!results[i].is_completed) continue;
+
         double gp = marksToGradePoint(results[i].marks);
         double credit = results[i].course->credit;
 
