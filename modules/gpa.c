@@ -33,3 +33,10 @@ double calculateCGPA(CourseResult results[], int n_results)
     if (total_credits == 0.0) return 0.0;
     return total_grade_points / total_credits;
 }
+
+double calculateSemesterGPA(CourseResult results[], int n_results, int semester)
+{
+    CourseResult filtered[1000];
+    int count = filterResultsBySemester(results, n_results, semester, filtered);
+    return calculateCGPA(filtered, count);
+}
