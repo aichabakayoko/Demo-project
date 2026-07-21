@@ -9,9 +9,9 @@ int main()
     CourseResult results[1000];
     int n_courses = 0;
 
-    courses[n_courses++] = createCourse("CSE 4107", "Structured Programming I", 3.0);
-    courses[n_courses++] = createCourse("CSE 4108", "Structured Programming I Lab", 1.5);
-    courses[n_courses++] = createCourse("CSE 4203", "Discrete Mathematics", 3.0);
+    courses[n_courses++] = createCourse("CSE 4107", "Structured Programming I", 3.0, 1);
+    courses[n_courses++] = createCourse("CSE 4108", "Structured Programming I Lab", 1.5, 1);
+    courses[n_courses++] = createCourse("CSE 4203", "Discrete Mathematics", 3.0, 2);
 
     for (int i = 0; i < n_courses; i++)
     {
@@ -35,8 +35,15 @@ int main()
         viewCourseResult(results[i]);
     }
 
+    printf("\n--- Semester GPAs ---\n");
+    for (int sem = 1; sem <= 2; sem++)
+    {
+        double sem_gpa = calculateSemesterGPA(results, n_courses, sem);
+        printf("Semester %d GPA: %.2f\n", sem, sem_gpa);
+    }
+
     double cgpa = calculateCGPA(results, n_courses);
-    printf("\nYour CGPA is: %.2f\n", cgpa);
+    printf("\nYour Overall CGPA is: %.2f\n", cgpa);
 
     return 0;
 }
