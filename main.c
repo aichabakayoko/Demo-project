@@ -64,13 +64,14 @@ int main()
         }
     }
 
-    printf("\n=== ALL STUDENTS SUMMARY ===\n");
+    sortStudentsByCGPA(students, n_students);
+
+    printf("\n=== STUDENT RANKING LIST ===\n");
     for (int i = 0; i < n_students; i++)
     {
-        printf("\n----------------------------------------\n");
-        viewStudent(students[i]);
         double cgpa = calculateCGPA(students[i].results, students[i].n_results);
-        printf("Overall CGPA: %.2f\n", cgpa);
+        printf("Rank %d | ID: %s | Name: %s | CGPA: %.2f\n",
+               i + 1, students[i].id, students[i].name, cgpa);
     }
 
     return 0;
