@@ -12,5 +12,6 @@ typedef struct CourseResult
 
 CourseResult createCourseResult(Course *course, double marks, int is_completed);
 void viewCourseResult(CourseResult result);
+int filterResultsBySemester(CourseResult results[], int n_results, int semester, CourseResult filtered[]);
 
 #endif
