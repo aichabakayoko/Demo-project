@@ -79,5 +79,13 @@ int main()
         }
     }
 
+    double exp_future_gpa;
+    printf("\nEnter expected future GPA: ");
+    if (scanf("%lf", &exp_future_gpa) == 1)
+    {
+        double exp_cgpa = calculateExpectedCGPA(results, n_courses, exp_future_gpa);
+        printf("Expected CGPA: %.2f\n", exp_cgpa);
+    }
+
     return 0;
 }
