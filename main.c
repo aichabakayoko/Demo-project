@@ -2,20 +2,21 @@
 #include "course.h"
 #include "courseResult.h"
 #include "gpa.h"
+#include "student.h"
 
 int main()
 {
     Course courses[1000];
-    CourseResult results[1000];
+    Student students[1000];
     int n_courses = 0;
+    int n_students = 0;
 
     printf("Enter number of courses: ");
     if (scanf("%d", &n_courses) != 1) return 1;
 
     for (int i = 0; i < n_courses; i++)
     {
-        char code[16];
-        char name[100];
+        char code[16], name[100];
         double credit;
         int semester;
 
@@ -30,53 +31,46 @@ int main()
         scanf("%d", &semester);
 
         courses[i] = createCourse(code, name, credit, semester);
-
-        int is_completed;
-        printf("Is completed? (1 for Yes, 0 for No): ");
-        scanf("%d", &is_completed);
-
-        double marks = 0;
-        if (is_completed)
-        {
-            printf("Marks: ");
-            scanf("%lf", &marks);
-        }
-
-        results[i] = createCourseResult(&courses[i], marks, is_completed);
     }
 
-    printf("\n--- Course Results ---\n");
-    for (int i = 0; i < n_courses; i++)
-    {
-        viewCourseResult(results[i]);
-    }
+    printf("\nEnter number of students: ");
+    if (scanf("%d", &n_students) != 1) return 1;
 
-    printf("\n--- Semester GPAs ---\n");
-    for (int sem = 1; sem <= 8; sem++)
+    for (int i = 0; i < n_students; i++)
     {
-        double sem_gpa = calculateSemesterGPA(results, n_courses, sem);
-        if (sem_gpa > 0.0)
+        char id[16], name[100];
+        printf("\nStudent %d ID: ", i + 1);
+        scanf("%15s", id);
+        printf("Student %d Name: ", i + 1);
+        scanf(" %[^\n]", name);
+
+        students[i] = createStudent(id, name);
+
+        for (int j = 0; j < n_courses; j++)
         {
-            printf("Semester %d GPA: %.2f\n", sem, sem_gpa);
+            int is_completed;
+            printf("Is %s completed for %s? (1 for Yes, 0 for No): ", courses[j].name, students[i].name);
+            scanf("%d", &is_completed);
+
+            double marks = 0;
+            if (is_completed)
+            {
+                printf("Marks: ");
+                scanf("%lf", &marks);
+            }
+
+            CourseResult res = createCourseResult(&courses[j], marks, is_completed);
+            addCourseResultToStudent(&students[i], res);
         }
     }
 
-    double cgpa = calculateCGPA(results, n_courses);
-    printf("\nYour Overall CGPA is: %.2f\n", cgpa);
-
-    double target_cgpa;
-    printf("\nEnter target CGPA: ");
-    if (scanf("%lf", &target_cgpa) == 1)
+    printf("\n=== ALL STUDENTS SUMMARY ===\n");
+    for (int i = 0; i < n_students; i++)
     {
-        double req_gpa = calculateRequiredGPA(results, n_courses, target_cgpa);
-        if (req_gpa > 4.00)
-        {
-            printf("Target CGPA %.2f is mathematically impossible (Required GPA: %.2f > 4.00)\n", target_cgpa, req_gpa);
-        }
-        else
-        {
-            printf("Required GPA in remaining courses: %.2f\n", req_gpa);
-        }
+        printf("\n----------------------------------------\n");
+        viewStudent(students[i]);
+        double cgpa = calculateCGPA(students[i].results, students[i].n_results);
+        printf("Overall CGPA: %.2f\n", cgpa);
     }
 
     return 0;
