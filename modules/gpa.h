@@ -5,5 +5,6 @@
 
 double marksToGradePoint(double marks);
 double calculateCGPA(CourseResult results[], int n_results);
+double calculateSemesterGPA(CourseResult results[], int n_results, int semester);
 
 #endif
