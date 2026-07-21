@@ -9,20 +9,36 @@ int main()
     CourseResult results[1000];
     int n_courses = 0;
 
-    courses[n_courses++] = createCourse("CSE 4107", "Structured Programming I", 3.0, 1);
-    courses[n_courses++] = createCourse("CSE 4108", "Structured Programming I Lab", 1.5, 1);
-    courses[n_courses++] = createCourse("CSE 4203", "Discrete Mathematics", 3.0, 2);
+    printf("Enter number of courses: ");
+    if (scanf("%d", &n_courses) != 1) return 1;
 
     for (int i = 0; i < n_courses; i++)
     {
+        char code[16];
+        char name[100];
+        double credit;
+        int semester;
+
+        printf("\nCourse %d details:\n", i + 1);
+        printf("Code: ");
+        scanf("%15s", code);
+        printf("Name: ");
+        scanf(" %[^\n]", name);
+        printf("Credit: ");
+        scanf("%lf", &credit);
+        printf("Semester: ");
+        scanf("%d", &semester);
+
+        courses[i] = createCourse(code, name, credit, semester);
+
         int is_completed;
-        printf("Is %s completed? (1 for Yes, 0 for No): ", courses[i].name);
+        printf("Is completed? (1 for Yes, 0 for No): ");
         scanf("%d", &is_completed);
 
         double marks = 0;
         if (is_completed)
         {
-            printf("Marks for %s: ", courses[i].name);
+            printf("Marks: ");
             scanf("%lf", &marks);
         }
 
@@ -36,10 +52,13 @@ int main()
     }
 
     printf("\n--- Semester GPAs ---\n");
-    for (int sem = 1; sem <= 2; sem++)
+    for (int sem = 1; sem <= 8; sem++)
     {
         double sem_gpa = calculateSemesterGPA(results, n_courses, sem);
-        printf("Semester %d GPA: %.2f\n", sem, sem_gpa);
+        if (sem_gpa > 0.0)
+        {
+            printf("Semester %d GPA: %.2f\n", sem, sem_gpa);
+        }
     }
 
     double cgpa = calculateCGPA(results, n_courses);
