@@ -5,15 +5,22 @@
 int testResultCourse()
 {
     Course course = createCourse("CSE 4202", "Structured Programming II Lab", 1.5);
-    CourseResult result = createCourseResult(&course, 77);
+    CourseResult result = createCourseResult(&course, 77, 1);
     return result.course == &course;
 }
 
 int testResultMarks()
 {
     Course course = createCourse("CSE 4202", "Structured Programming II Lab", 1.5);
-    CourseResult result = createCourseResult(&course, 77);
+    CourseResult result = createCourseResult(&course, 77, 1);
     return result.marks == 77;
+}
+
+int testResultStatus()
+{
+    Course course = createCourse("CSE 4202", "Structured Programming II Lab", 1.5);
+    CourseResult result = createCourseResult(&course, 0, 0);
+    return result.is_completed == 0;
 }
 
 int main()
@@ -26,6 +33,8 @@ int main()
     if (testResultCourse()) passed++;
     total++;
     if (testResultMarks()) passed++;
+    total++;
+    if (testResultStatus()) passed++;
 
     printf("Passed %d/%d tests\n", passed, total);
     if (passed == total) return 0;
