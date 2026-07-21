@@ -40,3 +40,30 @@ double calculateSemesterGPA(CourseResult results[], int n_results, int semester)
     int count = filterResultsBySemester(results, n_results, semester, filtered);
     return calculateCGPA(filtered, count);
 }
+
+double calculateRequiredGPA(CourseResult results[], int n_results, double target_cgpa)
+{
+    double completed_points = 0.0;
+    double completed_credits = 0.0;
+    double remaining_credits = 0.0;
+
+    for (int i = 0; i < n_results; i++)
+    {
+        if (results[i].is_completed)
+        {
+            completed_points += marksToGradePoint(results[i].marks) * results[i].course->credit;
+            completed_credits += results[i].course->credit;
+        }
+        else
+        {
+            remaining_credits += results[i].course->credit;
+        }
+    }
+
+    if (remaining_credits == 0.0) return 0.0;
+
+    double target_total_points = target_cgpa * (completed_credits + remaining_credits);
+    double required_points = target_total_points - completed_points;
+
+    return required_points / remaining_credits;
+}
