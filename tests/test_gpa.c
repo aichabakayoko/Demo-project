@@ -47,14 +47,28 @@ int testCalculateRequiredGPA()
     Course c1 = createCourse("CSE 4107", "Structured Programming I", 3.0, 1);
     Course c2 = createCourse("CSE 4203", "Discrete Mathematics", 3.0, 2);
 
-    CourseResult r1 = createCourseResult(&c1, 70, 1); // GP 3.5 * 3.0 = 10.5
-    CourseResult r2 = createCourseResult(&c2, 0, 0);  // Remaining 3.0 credits
+    CourseResult r1 = createCourseResult(&c1, 70, 1);
+    CourseResult r2 = createCourseResult(&c2, 0, 0);
 
     CourseResult results[] = {r1, r2};
-    // Target CGPA 3.75 for 6 total credits = 22.5 points needed -> 12 points needed in 3 credits -> Required GPA = 4.00
     double required_gpa = calculateRequiredGPA(results, 2, 3.75);
 
     return (required_gpa > 3.99 && required_gpa < 4.01);
+}
+
+int testCalculateExpectedCGPA()
+{
+    Course c1 = createCourse("CSE 4107", "Structured Programming I", 3.0, 1);
+    Course c2 = createCourse("CSE 4203", "Discrete Mathematics", 3.0, 2);
+
+    CourseResult r1 = createCourseResult(&c1, 70, 1); // GP 3.5 * 3.0 = 10.5
+    CourseResult r2 = createCourseResult(&c2, 0, 0);  // 3.0 remaining credits
+
+    CourseResult results[] = {r1, r2};
+    // Expected future GPA = 4.0 -> future points = 12.0 -> total points = 22.5 / 6 = 3.75
+    double expected_cgpa = calculateExpectedCGPA(results, 2, 4.00);
+
+    return (expected_cgpa > 3.74 && expected_cgpa < 3.76);
 }
 
 int main()
@@ -71,6 +85,8 @@ int main()
     if (testCalculateSemesterGPA()) passed++;
     total++;
     if (testCalculateRequiredGPA()) passed++;
+    total++;
+    if (testCalculateExpectedCGPA()) passed++;
 
     printf("Passed %d/%d tests\n", passed, total);
     if (passed == total) return 0;

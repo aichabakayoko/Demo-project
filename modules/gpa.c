@@ -67,3 +67,29 @@ double calculateRequiredGPA(CourseResult results[], int n_results, double target
 
     return required_points / remaining_credits;
 }
+
+double calculateExpectedCGPA(CourseResult results[], int n_results, double expected_future_gpa)
+{
+    double completed_points = 0.0;
+    double completed_credits = 0.0;
+    double remaining_credits = 0.0;
+
+    for (int i = 0; i < n_results; i++)
+    {
+        if (results[i].is_completed)
+        {
+            completed_points += marksToGradePoint(results[i].marks) * results[i].course->credit;
+            completed_credits += results[i].course->credit;
+        }
+        else
+        {
+            remaining_credits += results[i].course->credit;
+        }
+    }
+
+    double total_credits = completed_credits + remaining_credits;
+    if (total_credits == 0.0) return 0.0;
+
+    double future_points = expected_future_gpa * remaining_credits;
+    return (completed_points + future_points) / total_credits;
+}
